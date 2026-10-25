@@ -1,0 +1,168 @@
+<% layout('layouts/main') -%>
+
+<style>
+    .donor-create-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .create-form-card {
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+</style>
+
+<div class="donor-create-container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 fw-bold text-dark">
+                <i class="bi bi-person-plus-fill text-danger me-2"></i>Add New Donor
+            </h1>
+            <p class="text-muted mb-0">Register a new blood donor</p>
+        </div>
+        <div>
+            <a href="/donors" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to List
+            </a>
+        </div>
+    </div>
+
+    <!-- Create Form -->
+    <div class="card create-form-card border-0">
+        <div class="card-body p-4">
+            <form method="post" action="/donors/create" enctype="multipart/form-data">
+                <div class="row g-3">
+                    <!-- Name -->
+                    <div class="col-md-6">
+                        <label class="form-label">Full Name *</label>
+                        <input type="text" 
+                               name="name" 
+                               class="form-control" 
+                               required
+                               placeholder="Enter donor's full name">
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="col-md-6">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" 
+                               name="email" 
+                               class="form-control" 
+                               placeholder="donor@example.com">
+                    </div>
+                    
+                    <!-- Phone -->
+                    <div class="col-md-6">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" 
+                               name="phone" 
+                               class="form-control" 
+                               placeholder="Phone number">
+                    </div>
+                    
+                    <!-- Blood Group -->
+                    <div class="col-md-6">
+                        <label class="form-label">Blood Group</label>
+                        <select name="blood_group" class="form-select">
+                            <option value="">Select Blood Type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    
+                    <!-- City -->
+                    <div class="col-md-6">
+                        <label class="form-label">City</label>
+                        <input type="text" 
+                               name="city" 
+                               class="form-control" 
+                               placeholder="Enter city">
+                    </div>
+                    
+                    <!-- Age -->
+                    <div class="col-md-6">
+                        <label class="form-label">Age</label>
+                        <input type="number" 
+                               name="age" 
+                               class="form-control" 
+                               min="18" 
+                               max="70"
+                               placeholder="Age (18-70)">
+                    </div>
+                    
+                    <!-- Last Donation Date -->
+                    <div class="col-md-6">
+                        <label class="form-label">Last Donation Date</label>
+                        <input type="date" 
+                               name="last_donation_date" 
+                               class="form-control"
+                               max="<%= new Date().toISOString().split('T')[0] %>">
+                    </div>
+                    
+                    <!-- Photo -->
+                    <div class="col-md-6">
+                        <label class="form-label">Profile Photo</label>
+                        <input type="file" 
+                               name="photo" 
+                               class="form-control"
+                               accept="image/*">
+                        <div class="form-text">
+                            Optional: Upload donor's photo (JPG, PNG, max 5MB)
+                        </div>
+                    </div>
+                    
+                    <!-- Form Actions -->
+                    <div class="col-12 mt-4">
+                        <div class="d-flex justify-content-between">
+                            <a href="/donors" class="btn btn-outline-secondary px-4">
+                                <i class="bi bi-x-circle me-1"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-danger px-5">
+                                <i class="bi bi-check-circle me-1"></i>Save Donor
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Set max date for last donation date to today
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        const lastDonationInput = document.querySelector('input[name="last_donation_date"]');
+        if (lastDonationInput) {
+            lastDonationInput.max = today;
+        }
+        
+        // Age validation
+        const ageInput = document.querySelector('input[name="age"]');
+        if (ageInput) {
+            ageInput.addEventListener('change', function() {
+                const age = parseInt(this.value);
+                if (age && age < 18) {
+                    alert('Donor must be at least 18 years old.');
+                    this.value = '';
+                }
+                if (age && age > 70) {
+                    alert('Maximum age for donation is 70 years.');
+                    this.value = '';
+                }
+            });
+        }
+    });
+</script>

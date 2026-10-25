@@ -1,0 +1,340 @@
+<% layout('layouts/main') -%>
+
+<style>
+    .registration-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .registration-card {
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+    
+    .registration-header {
+        background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+        color: white;
+        padding: 2.5rem;
+    }
+    
+    .registration-body {
+        padding: 2.5rem;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+    }
+    
+    .optional-badge {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+        background-color: #e9ecef;
+        color: #6c757d;
+    }
+    
+    .form-section {
+        border-left: 4px solid var(--primary-red);
+        padding-left: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+        .registration-container {
+            padding: 0 15px;
+        }
+        
+        .registration-header,
+        .registration-body {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<div class="registration-container py-5">
+    <div class="registration-card">
+        <!-- Header -->
+        <div class="registration-header text-center">
+            <div class="mb-4">
+                <i class="bi bi-heart-pulse-fill fs-1"></i>
+            </div>
+            <h1 class="h2 fw-bold mb-3">Become a Blood Donor</h1>
+            <p class="mb-0 opacity-75">
+                Join BioHem's donor community and help save lives. Your donation matters.
+            </p>
+        </div>
+        
+        <!-- Registration Form -->
+        <div class="registration-body">
+            <form method="post" action="/auth/register/donor" enctype="multipart/form-data">
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <h5 class="fw-bold text-dark mb-3">
+                        <i class="bi bi-person-circle text-danger me-2"></i>Personal Information
+                    </h5>
+                    
+                    <div class="row g-3">
+                        <!-- Full Name -->
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Full Name *</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="name" 
+                                   name="name" 
+                                   required
+                                   placeholder="Enter your full name">
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email Address *</label>
+                            <input type="email" 
+                                   class="form-control" 
+                                   id="email" 
+                                   name="email" 
+                                   required
+                                   placeholder="your.email@example.com">
+                        </div>
+                        
+                        <!-- Password -->
+                        <div class="col-md-6">
+                            <label for="password" class="form-label">Password *</label>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="password" 
+                                   name="password" 
+                                   required
+                                   placeholder="Create a secure password">
+                            <div class="form-text">
+                                Must be at least 8 characters long
+                            </div>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" 
+                                   class="form-control" 
+                                   id="phone" 
+                                   name="phone" 
+                                   placeholder="+1 (234) 567-8900">
+                        </div>
+                        
+                        <!-- Age -->
+                        <div class="col-md-6">
+                            <label for="age" class="form-label">Age</label>
+                            <input type="number" 
+                                   class="form-control" 
+                                   id="age" 
+                                   name="age" 
+                                   min="18" 
+                                   max="70"
+                                   placeholder="Minimum 18 years">
+                            <div class="form-text">
+                                Must be 18-70 years old to donate
+                            </div>
+                        </div>
+                        
+                        <!-- Last Donation Date -->
+                        <div class="col-md-6">
+                            <label for="last_donation_date" class="form-label">
+                                Last Donation Date
+                                <span class="optional-badge ms-2">Optional</span>
+                            </label>
+                            <input type="date" 
+                                   class="form-control" 
+                                   id="last_donation_date" 
+                                   name="last_donation_date"
+                                   max="<%= new Date().toISOString().split('T')[0] %>">
+                            <div class="form-text">
+                                Leave blank if this is your first donation
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Medical & Location Information -->
+                <div class="form-section">
+                    <h5 class="fw-bold text-dark mb-3">
+                        <i class="bi bi-droplet-fill text-danger me-2"></i>Medical & Location Information
+                    </h5>
+                    
+                    <div class="row g-3">
+                        <!-- Blood Group -->
+                        <div class="col-md-6">
+                            <label for="blood_group" class="form-label">Blood Group</label>
+                            <select class="form-select" id="blood_group" name="blood_group">
+                                <option value="">Select Blood Type</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="Unknown">Don't Know</option>
+                            </select>
+                        </div>
+                        
+                        <!-- City -->
+                        <div class="col-md-6">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="city" 
+                                   name="city" 
+                                   placeholder="Enter your city">
+                        </div>
+                        
+                        <!-- Profile Photo -->
+                        <div class="col-12">
+                            <label for="photo" class="form-label">
+                                Profile Photo
+                                <span class="optional-badge ms-2">Optional</span>
+                            </label>
+                            <input type="file" 
+                                   class="form-control" 
+                                   id="photo" 
+                                   name="photo"
+                                   accept="image/*">
+                            <div class="form-text">
+                                Upload a clear photo of yourself (JPG, PNG, max 5MB)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Terms & Consent -->
+                <div class="mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" 
+                               type="checkbox" 
+                               id="terms" 
+                               required>
+                        <label class="form-check-label small" for="terms">
+                            I agree to the <a href="#" class="text-danger">Terms of Service</a> and 
+                            <a href="#" class="text-danger">Privacy Policy</a>. I confirm that I am at least 
+                            18 years old and meet the eligibility criteria for blood donation.
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                    <a href="/" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>Back to Home
+                    </a>
+                    <button type="submit" class="btn btn-danger px-5">
+                        <i class="bi bi-person-plus-fill me-1"></i>Register as Donor
+                    </button>
+                </div>
+                
+                <!-- Already have account -->
+                <div class="text-center mt-4">
+                    <p class="text-muted mb-0">
+                        Already have an account? 
+                        <a href="/auth/login" class="text-danger fw-semibold">Login here</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Additional Information -->
+    <div class="mt-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card border-0 bg-light h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-shield-check text-success fs-3 mb-3"></i>
+                        <h6 class="fw-bold">Secure & Private</h6>
+                        <p class="small text-muted mb-0">
+                            Your personal information is encrypted and protected
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 bg-light h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-heart text-danger fs-3 mb-3"></i>
+                        <h6 class="fw-bold">Save Lives</h6>
+                        <p class="small text-muted mb-0">
+                            Each donation can save up to 3 lives
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 bg-light h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-clock-history text-primary fs-3 mb-3"></i>
+                        <h6 class="fw-bold">Flexible Scheduling</h6>
+                        <p class="small text-muted mb-0">
+                            Donate when it's convenient for you
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Set max date for last donation date to today
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        const lastDonationInput = document.getElementById('last_donation_date');
+        if (lastDonationInput) {
+            lastDonationInput.max = today;
+        }
+        
+        // Form validation
+        const ageInput = document.getElementById('age');
+        if (ageInput) {
+            ageInput.addEventListener('change', function() {
+                const age = parseInt(this.value);
+                if (age && age < 18) {
+                    alert('You must be at least 18 years old to donate blood.');
+                    this.value = '';
+                }
+                if (age && age > 70) {
+                    alert('Maximum age for donation is 70 years.');
+                    this.value = '';
+                }
+            });
+        }
+        
+        // Password strength indicator (basic)
+        const passwordInput = document.getElementById('password');
+        if (passwordInput) {
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                const strengthIndicator = document.getElementById('passwordStrength');
+                if (!strengthIndicator) {
+                    const div = document.createElement('div');
+                    div.id = 'passwordStrength';
+                    div.className = 'form-text';
+                    this.parentNode.appendChild(div);
+                }
+                
+                let strength = 'Weak';
+                let strengthClass = 'text-danger';
+                
+                if (password.length >= 12) {
+                    strength = 'Strong';
+                    strengthClass = 'text-success';
+                } else if (password.length >= 8) {
+                    strength = 'Medium';
+                    strengthClass = 'text-warning';
+                }
+                
+                strengthIndicator.textContent = `Password strength: ${strength}`;
+                strengthIndicator.className = `form-text ${strengthClass}`;
+            });
+        }
+    });
+</script>

@@ -1,0 +1,136 @@
+<% layout('layouts/main') -%>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <!-- Logo Header -->
+            <div class="text-center mb-5">
+                <div class="bg-danger bg-opacity-10 rounded-circle p-3 d-inline-block mb-3">
+                    <i class="bi bi-droplet-fill text-danger fs-1"></i>
+                </div>
+                <h1 class="h2 fw-bold">Welcome Back</h1>
+                <p class="text-muted">Sign in to your BioHem account</p>
+            </div>
+
+            <!-- Login Card -->
+            <div class="card border-0 shadow-lg animate__animated animate__fadeIn">
+                <div class="card-body p-4 p-md-5">
+                    <form method="post" action="/auth/login" id="loginForm">
+                        <!-- Email Input -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-envelope-fill text-danger me-2"></i>Email Address
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-person text-muted"></i>
+                                </span>
+                                <input name="email" type="email" class="form-control border-start-0" 
+                                       placeholder="Enter your email" required
+                                       autocomplete="email" autofocus>
+                            </div>
+                            <div class="form-text text-end small">
+                                Use admin@admin.com for demo
+                            </div>
+                        </div>
+
+                        <!-- Password Input -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-lock-fill text-danger me-2"></i>Password
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-key text-muted"></i>
+                                </span>
+                                <input name="password" type="password" class="form-control border-start-0" 
+                                       placeholder="Enter your password" required
+                                       autocomplete="current-password" id="passwordInput">
+                                <button class="btn btn-outline-secondary border-start-0" type="button" 
+                                        id="togglePassword">
+                                    <i class="bi bi-eye" id="eyeIcon"></i>
+                                </button>
+                            </div>
+                            <div class="form-text text-end small">
+                                Demo password: Password123
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid mb-4">
+                            <button type="submit" class="btn btn-danger btn-lg fw-bold">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                            </button>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="text-center position-relative my-4">
+                            <hr class="my-0">
+                            <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">
+                                OR CONTINUE WITH
+                            </span>
+                        </div>
+
+                          
+
+                        <!-- Registration Links -->
+                        <div class="text-center">
+                            <p class="text-muted mb-2">Don't have an account?</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="/auth/register/donor" class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-heart-pulse me-1"></i>Register as Donor
+                                </a>
+                                <a href="/auth/register/hospital" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-hospital me-1"></i>Register Hospital
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Security Note -->
+                        <div class="alert alert-light border mt-4 mb-0" role="alert">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <i class="bi bi-shield-check text-success"></i>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <small class="text-muted">
+                                        Your security is our priority. All data is encrypted and protected.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Back to Home -->
+            <div class="text-center mt-4">
+                <a href="/" class="text-decoration-none text-muted small">
+                    <i class="bi bi-arrow-left me-1"></i>Back to Homepage
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<style>
+    .input-group:focus-within {
+        box-shadow: 0 0 0 0.25rem rgba(211, 47, 47, 0.15);
+    }
+    
+    .input-group:focus-within .input-group-text {
+        border-color: var(--primary-red);
+    }
+    
+    .demo-btn {
+        transition: all 0.3s ease;
+    }
+    
+    .demo-btn:hover {
+        transform: translateY(-2px);
+    }
+    
+</style>

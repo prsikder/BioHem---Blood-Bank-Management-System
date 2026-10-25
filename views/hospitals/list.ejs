@@ -1,0 +1,224 @@
+<% layout('layouts/main') -%>
+
+<style>
+    .hospitals-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .hospital-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+    }
+    
+    .hospital-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .hospital-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .hospitals-container {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        
+        .hospital-card {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+
+<div class="hospitals-container container-fluid py-4">
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+        <div class="mb-3 mb-md-0">
+            <h1 class="h2 fw-bold text-dark mb-2">
+                <i class="bi bi-hospital-fill text-primary me-2"></i>Partner Hospitals
+            </h1>
+            <p class="text-muted mb-0">
+                <% if (hospitals && hospitals.length) { %>
+                    <%= hospitals.length %> hospitals registered in the system
+                <% } else { %>
+                    Find partner hospitals in your area
+                <% } %>
+            </p>
+        </div>
+        <div>
+            <% if (user && user.role === 'admin') { %>
+                <a href="/hospitals/create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i>Add Hospital
+                </a>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Search Bar (if you want search functionality) -->
+    <% if (hospitals && hospitals.length > 5) { %>
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <form method="get" action="/hospitals" class="row g-2">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input type="text" 
+                                   name="q" 
+                                   value="<%= q || '' %>" 
+                                   class="form-control border-start-0" 
+                                   placeholder="Search hospitals by name, city, or email...">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary flex-grow-1">
+                                <i class="bi bi-search me-1"></i>Search
+                            </button>
+                            <% if (q) { %>
+                                <a href="/hospitals" class="btn btn-outline-secondary">
+                                    Clear
+                                </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- Hospitals Grid -->
+    <% if (hospitals && hospitals.length) { %>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <% hospitals.forEach(h => { %>
+                <div class="col">
+                    <div class="card hospital-card">
+                        <div class="card-body">
+                            <!-- Hospital Header -->
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="hospital-icon bg-primary bg-opacity-10 text-primary me-3">
+                                    <i class="bi bi-hospital"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="card-title fw-bold mb-1">
+                                        <a href="/hospitals/<%= h.id %>" class="text-decoration-none text-dark">
+                                            <%= h.name %>
+                                        </a>
+                                    </h5>
+                                    <p class="text-muted small mb-0 text-truncate">
+                                        <i class="bi bi-envelope me-1"></i><%= h.email %>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Hospital Details -->
+                            <div class="mb-3">
+                                <% if (h.city) { %>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="bi bi-geo-alt text-muted me-2" style="width: 20px;"></i>
+                                        <span class="small"><%= h.city %></span>
+                                    </div>
+                                <% } %>
+                                
+                                <% if (h.phone) { %>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="bi bi-telephone text-muted me-2" style="width: 20px;"></i>
+                                        <span class="small"><%= h.phone %></span>
+                                    </div>
+                                <% } %>
+                                
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-calendar text-muted me-2" style="width: 20px;"></i>
+                                    <span class="small">
+                                        Joined <%= new Date(h.created_at).toLocaleDateString() %>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+        
+        <!-- Pagination (if you have pagination) -->
+        <% if (total && limit && Math.ceil(total/limit) > 1) { %>
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <% const totalPages = Math.ceil(total/limit) || 1; %>
+                    
+                    <!-- Previous -->
+                    <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+                        <a class="page-link" href="?q=<%= encodeURIComponent(q || '') %>&page=<%= page-1 %>">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                    
+                    <!-- Page Numbers -->
+                    <% 
+                    let startPage = Math.max(1, page - 2);
+                    let endPage = Math.min(totalPages, startPage + 4);
+                    
+                    if (endPage - startPage < 4) {
+                        startPage = Math.max(1, endPage - 4);
+                    }
+                    %>
+                    
+                    <% for(let p = startPage; p <= endPage; p++) { %>
+                        <li class="page-item <%= p === page ? 'active' : '' %>">
+                            <a class="page-link" href="?q=<%= encodeURIComponent(q || '') %>&page=<%= p %>"><%= p %></a>
+                        </li>
+                    <% } %>
+                    
+                    <!-- Next -->
+                    <li class="page-item <%= page >= totalPages ? 'disabled' : '' %>">
+                        <a class="page-link" href="?q=<%= encodeURIComponent(q || '') %>&page=<%= page+1 %>">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        <% } %>
+        
+    <% } else { %>
+        <!-- Empty State -->
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="bi bi-hospital text-muted fs-1"></i>
+            </div>
+            <h4 class="text-muted mb-3">No hospitals found</h4>
+            <p class="text-muted mb-4">
+                <% if (q) { %>
+                    No hospitals match your search "<%= q %>"
+                <% } else { %>
+                    No hospitals have been registered yet
+                <% } %>
+            </p>
+            <div class="d-flex justify-content-center gap-2">
+                <% if (q) { %>
+                    <a href="/hospitals" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>Clear Search
+                    </a>
+                <% } %>
+                <% if (user && user.role === 'admin') { %>
+                    <a href="/hospitals/create" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i>Add First Hospital
+                    </a>
+                <% } %>
+            </div>
+        </div>
+    <% } %>
+</div>

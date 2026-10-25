@@ -1,0 +1,10 @@
+<% layout('layouts/main') -%>
+<h2><%= hospital.name %></h2>
+<!-- existing details -->
+<p><strong>City:</strong> <%= hospital.city %></p>
+<!-- show request button -->
+<% if (user) { %>
+  <a class="btn btn-outline-primary" href="/hospitals/<%= hospital.id %>/request">Request Blood</a>
+<% } else { %>
+  <a class="btn btn-outline-secondary" href="/auth/login">Login to request</a>
+<% } %>

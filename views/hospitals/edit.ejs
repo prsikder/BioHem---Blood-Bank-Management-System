@@ -1,0 +1,134 @@
+<% layout('layouts/main') -%>
+
+<style>
+    .edit-hospital-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .form-section {
+        background: #fff;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+        .form-section {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<div class="edit-hospital-container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 fw-bold text-dark">
+                <i class="bi bi-hospital-fill text-primary me-2"></i>Edit Hospital Profile
+            </h1>
+            <p class="text-muted mb-0">Update hospital information</p>
+        </div>
+        <div>
+            <a href="/hospitals/dashboard" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Edit Form -->
+    <form method="post" action="/hospitals/<%= hospital.id %>/edit">
+        <!-- Basic Information Section -->
+        <div class="form-section">
+            <h5 class="fw-bold text-dark mb-4">
+                <i class="bi bi-info-circle-fill text-primary me-2"></i>Hospital Information
+            </h5>
+            
+            <div class="row g-3">
+                <!-- Hospital Name -->
+                <div class="col-md-6">
+                    <label for="name" class="form-label fw-semibold">Hospital Name *</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="name" 
+                           name="name" 
+                           value="<%= hospital.name %>" 
+                           required
+                           placeholder="Enter hospital name">
+                </div>
+                
+                <!-- Email -->
+                <div class="col-md-6">
+                    <label for="email" class="form-label fw-semibold">Email Address</label>
+                    <input type="email" 
+                           class="form-control" 
+                           id="email" 
+                           name="email" 
+                           value="<%= hospital.email %>"
+                           placeholder="hospital@example.com">
+                </div>
+                
+                <!-- Phone -->
+                <div class="col-md-6">
+                    <label for="phone" class="form-label fw-semibold">Phone Number</label>
+                    <input type="tel" 
+                           class="form-control" 
+                           id="phone" 
+                           name="phone" 
+                           value="<%= hospital.phone %>"
+                           placeholder="+1 (234) 567-8900">
+                </div>
+                
+                <!-- City -->
+                <div class="col-md-6">
+                    <label for="city" class="form-label fw-semibold">City</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="city" 
+                           name="city" 
+                           value="<%= hospital.city %>"
+                           placeholder="Enter city name">
+                </div>
+                
+                <!-- Address -->
+                <div class="col-12">
+                    <label for="address" class="form-label fw-semibold">Address</label>
+                    <textarea class="form-control" 
+                              id="address" 
+                              name="address" 
+                              rows="3"
+                              placeholder="Enter hospital address"><%= hospital.address %></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="d-flex justify-content-between">
+            <a href="/hospitals/dashboard" class="btn btn-outline-secondary px-4">
+                <i class="bi bi-x-circle me-1"></i>Cancel
+            </a>
+            <button type="submit" class="btn btn-primary px-5">
+                <i class="bi bi-check-circle me-1"></i>Save Changes
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Form validation
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value.trim();
+            
+            if (!name) {
+                e.preventDefault();
+                alert('Hospital name is required');
+                return false;
+            }
+            
+            return true;
+        });
+    });
+</script>

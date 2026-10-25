@@ -1,0 +1,188 @@
+<% layout('layouts/main') -%>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block mb-3">
+                    <i class="bi bi-hospital text-primary fs-1"></i>
+                </div>
+                <h1 class="h2 fw-bold">Hospital Registration</h1>
+                <p class="text-muted">Register your hospital to access blood inventory and request system</p>
+            </div>
+
+            <!-- Registration Form -->
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-4 p-md-5">
+                    <form method="post" action="/auth/register/hospital" id="hospitalForm">
+                        <div class="row g-4">
+                            <!-- Hospital Information -->
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-4 border-bottom pb-2">
+                                    <i class="bi bi-building text-primary me-2"></i>Hospital Information
+                                </h5>
+                                
+                                <!-- Hospital Name -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">
+                                        <i class="bi bi-building-fill text-muted me-2"></i>Hospital Name *
+                                    </label>
+                                    <input name="name" class="form-control" 
+                                           placeholder="Enter hospital name" required>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">
+                                        <i class="bi bi-envelope-fill text-muted me-2"></i>Contact Email *
+                                    </label>
+                                    <input name="email" type="email" class="form-control" 
+                                           placeholder="admin@hospital.com" required>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">
+                                        <i class="bi bi-lock-fill text-muted me-2"></i>Password *
+                                    </label>
+                                    <div class="input-group">
+                                        <input name="password" type="password" class="form-control" 
+                                               placeholder="Create a strong password" required
+                                               id="passwordInput" autocomplete="new-password">
+                                        <button class="btn btn-outline-secondary" type="button" 
+                                                id="togglePassword">
+                                            <i class="bi bi-eye" id="eyeIcon"></i>
+                                        </button>
+                                    </div>
+                                    <div class="form-text small">
+                                        Must be at least 8 characters with letters and numbers
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contact & Location -->
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-4 border-bottom pb-2">
+                                    <i class="bi bi-geo-alt text-primary me-2"></i>Contact & Location
+                                </h5>
+
+                                <!-- Phone -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">
+                                        <i class="bi bi-phone-fill text-muted me-2"></i>Phone Number
+                                    </label>
+                                    <input name="phone" class="form-control" 
+                                           placeholder="+880 1XXX-XXXXXX">
+                                </div>
+
+                                <!-- City -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">
+                                        <i class="bi bi-geo-fill text-muted me-2"></i>City
+                                    </label>
+                                    <input name="city" class="form-control" 
+                                           placeholder="Enter city">
+                                </div>
+
+                                <!-- Address -->
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">
+                                        <i class="bi bi-house-door-fill text-muted me-2"></i>Address
+                                    </label>
+                                    <textarea name="address" class="form-control" rows="3"
+                                              placeholder="Full hospital address"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Terms & Conditions -->
+                        <div class="form-check mt-4 mb-4">
+                            <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                            <label class="form-check-label small text-muted" for="termsCheck">
+                                I confirm that this is a legitimate healthcare facility and agree to 
+                                the <a href="#" class="text-primary">Terms of Service</a> and 
+                                <a href="#" class="text-primary">Privacy Policy</a>.
+                            </label>
+                        </div>
+
+                        <!-- Submit & Actions -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold">
+                                <i class="bi bi-hospital me-2"></i>Register Hospital
+                            </button>
+                            <a href="/auth/login" class="btn btn-outline-secondary">
+                                Already have an account? Sign In
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Benefits Section -->
+            <div class="row g-3 mt-4">
+                <div class="col-md-4">
+                    <div class="card border-0 bg-primary bg-opacity-5 h-100">
+                        <div class="card-body text-center">
+                            <i class="bi bi-lightning-charge text-primary fs-3 mb-2"></i>
+                            <h6 class="fw-bold">Instant Access</h6>
+                            <p class="small text-muted mb-0">Access blood inventory in real-time</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 bg-primary bg-opacity-5 h-100">
+                        <div class="card-body text-center">
+                            <i class="bi bi-search-heart text-success fs-3 mb-2"></i>
+                            <h6 class="fw-bold">Quick Matching</h6>
+                            <p class="small text-muted mb-0">Find matching donors instantly</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 bg-primary bg-opacity-5 h-100">
+                        <div class="card-body text-center">
+                            <i class="bi bi-graph-up text-warning fs-3 mb-2"></i>
+                            <h6 class="fw-bold">Analytics Dashboard</h6>
+                            <p class="small text-muted mb-0">Track requests and inventory</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('passwordInput');
+        const eyeIcon = document.getElementById('eyeIcon');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.classList.remove('bi-eye');
+            eyeIcon.classList.add('bi-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.remove('bi-eye-slash');
+            eyeIcon.classList.add('bi-eye');
+        }
+    });
+
+    // Form validation
+    document.getElementById('hospitalForm').addEventListener('submit', function(e) {
+        const password = document.getElementById('passwordInput').value;
+        
+        if (password.length < 8) {
+            e.preventDefault();
+            alert('Password must be at least 8 characters long');
+            return false;
+        }
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Registering...';
+        submitBtn.disabled = true;
+    });
+</script>
